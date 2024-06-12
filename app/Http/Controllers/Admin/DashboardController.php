@@ -21,11 +21,7 @@ class DashboardController extends Controller
         $countKegiatan = DataKegiatan::count();
         $dataKegiatan = DataKegiatan::latest()->first();
 
-        $countResiko = PelayananIbu::detail_count_resiko($dataKegiatan->id);
-        $countPosisi = PelayananIbu::detail_count_pos_janin($dataKegiatan->id);
-        $countImun = PelayananIbu::detail_count_pos_vaksin($dataKegiatan->id);
-        $countPemberianVit = PelayananIbu::detail_count_vitamin_a($dataKegiatan->id);
-        $countUsia = PelayananIbu::detail_usia_kehamilan($dataKegiatan->id);
+
 
         $jumlah_stunting = 0;
         $jumlah_pengidap_diare = 0;
@@ -34,7 +30,11 @@ class DashboardController extends Controller
         $countImunAnak = 0;
         $jumlah_usia_anak = 0;
         $countStunting = 0;
-
+        $countResiko = 0;
+        $countPosisi = 0;
+        $countImun = 0;
+        $countPemberianVit = 0;
+        $countUsia = 0;
         if ($dataKegiatan) {
             $jumlah_stunting = PelayananAnak::JumlahStunting($dataKegiatan->id);
             $jumlah_pengidap_diare = PelayananAnak::jumlah_pengidap_diare($dataKegiatan->id);
@@ -43,6 +43,12 @@ class DashboardController extends Controller
             $countImunAnak = PelayananAnak::detail_count_pos_vaksin($dataKegiatan->id);
             $jumlah_usia_anak = PelayananAnak::statistik_usia($dataKegiatan->id);
             $countStunting = PelayananAnak::where('status_stunting', '=', 'stunting')->where('data_kegiatan_id', $dataKegiatan->id)->count();
+
+            $countResiko = PelayananIbu::detail_count_resiko($dataKegiatan->id);
+            $countPosisi = PelayananIbu::detail_count_pos_janin($dataKegiatan->id);
+            $countImun = PelayananIbu::detail_count_pos_vaksin($dataKegiatan->id);
+            $countPemberianVit = PelayananIbu::detail_count_vitamin_a($dataKegiatan->id);
+            $countUsia = PelayananIbu::detail_usia_kehamilan($dataKegiatan->id);
         }
         return inertia(
             'Admin/Dashboard/Index',
