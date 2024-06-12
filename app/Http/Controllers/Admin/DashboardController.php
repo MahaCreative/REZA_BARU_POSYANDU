@@ -27,14 +27,23 @@ class DashboardController extends Controller
         $countPemberianVit = PelayananIbu::detail_count_vitamin_a($dataKegiatan->id);
         $countUsia = PelayananIbu::detail_usia_kehamilan($dataKegiatan->id);
 
-        // // get stati pelayanan ANak
-        $jumlah_stunting = PelayananAnak::JumlahStunting($dataKegiatan->id);
-        $jumlah_pengidap_diare = PelayananAnak::jumlah_pengidap_diare($dataKegiatan->id);
-        $jumlah_pemberian_vit_a = PelayananAnak::jumlah_pemberian_vit_a($dataKegiatan->id);
-        $jumlah_pemberian_oralit = PelayananAnak::jumlah_pemberian_oralit($dataKegiatan->id);
-        $countImunAnak = PelayananAnak::detail_count_pos_vaksin($dataKegiatan->id);
-        $jumlah_usia_anak = PelayananAnak::statistik_usia($dataKegiatan->id);
-        $countStunting = PelayananAnak::where('status_stunting', '=', 'stunting')->where('data_kegiatan_id', $dataKegiatan->id)->count();
+        $jumlah_stunting = 0;
+        $jumlah_pengidap_diare = 0;
+        $jumlah_pemberian_vit_a = 0;
+        $jumlah_pemberian_oralit = 0;
+        $countImunAnak = 0;
+        $jumlah_usia_anak = 0;
+        $countStunting = 0;
+
+        if ($dataKegiatan) {
+            $jumlah_stunting = PelayananAnak::JumlahStunting($dataKegiatan->id);
+            $jumlah_pengidap_diare = PelayananAnak::jumlah_pengidap_diare($dataKegiatan->id);
+            $jumlah_pemberian_vit_a = PelayananAnak::jumlah_pemberian_vit_a($dataKegiatan->id);
+            $jumlah_pemberian_oralit = PelayananAnak::jumlah_pemberian_oralit($dataKegiatan->id);
+            $countImunAnak = PelayananAnak::detail_count_pos_vaksin($dataKegiatan->id);
+            $jumlah_usia_anak = PelayananAnak::statistik_usia($dataKegiatan->id);
+            $countStunting = PelayananAnak::where('status_stunting', '=', 'stunting')->where('data_kegiatan_id', $dataKegiatan->id)->count();
+        }
         return inertia(
             'Admin/Dashboard/Index',
             compact(
