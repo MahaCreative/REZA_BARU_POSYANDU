@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\DataIbu;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DataIbuController extends Controller
 {
     public function index(Request $request)
     {
-        $query = DataIbu::query()->with('pekerjaan', 'pendidikan');
+        $query = DataIbu::query()->with('pekerjaan', 'pendidikan', 'user');
+        if ($request->cari) {
+            $query->where('nama_lengkap', 'like', '%' . $request->cari . '%')->orWhere('nik', 'like', '%' . $request->cari . '%');
+        }
         $dataIbu =  $query->get();
         return inertia("Admin/DataIbu/Index", compact('dataIbu'));
     }
@@ -31,19 +35,33 @@ class DataIbuController extends Controller
             'alamat' => 'required|string|min:4',
             'desa' => 'required|string|min:4',
             'dusun' => 'required|string|min:4',
-            'telephone' => 'required|numeric|digits:12',
+            'telephone' => 'required|numeric|digits:12|unique:data_ibus,telephone',
             'pendidikan_id' => 'required',
             'pekerjaan_id' => 'required',
             'foto' => 'required|mimes:png,jpeg,jpg|image',
         ]);
+        if ($request->email != null or $request->password !== null) {
+            $request->validate([
+                'email' => 'email|required',
+                'password' => 'confirmed|required|min:6|alpha_dash'
+            ]);
+            $user = User::create([
+                'name' => $request->nama_lengkap,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+            ]);
+            $user->assignRole('ibu');
+            $attr['user_id'] = $user->id;
+        }
         if ($request->file('foto')) {
             $attr['foto'] = $request->file('foto')->store('FotoIbu', 'public');
         }
+
         $dataIbu = DataIbu::create($attr);
     }
     public function form_update_data_ibu(Request $request)
     {
-        $dataIbu = DataIbu::with('pekerjaan', 'pendidikan')->findOrFail($request->id);
+        $dataIbu = DataIbu::with('pekerjaan', 'pendidikan', 'user')->findOrFail($request->id);
         return inertia("Admin/DataIbu/ViewForm", compact('dataIbu'));
     }
 
@@ -65,18 +83,48 @@ class DataIbuController extends Controller
 
         ]);
         $dataIbu = DataIbu::findOrFail($request->id);
-        if($request->file('foto')) {
+        if ($request->file('foto')) {
             $request->validate([
                 'foto' => 'required|mimes:png,jpg,jpeg|image',
             ]);
             $attr['foto'] = $request->file('foto') ? $request->file('foto')->store('FotoIbu') : $dataIbu->foto;
         }
+        if ($dataIbu->user != null) {
+
+            if ($request->password) {
+                $request->validate([
+                    'password' => 'confirmed|required|min:6|alpha_dash'
+                ]);
+            }
+            $dataIbu->user()->update([
+                'name' => $request->nama_lengkap,
+                'email' => $request->email,
+                'password' => $request->password ? bcrypt($request->password) : $dataIbu->user->password
+            ]);
+            $attr['user_id'] = $dataIbu->user->id;
+        } else {
+
+            if ($request->email != null or $request->password !== null) {
+                $request->validate([
+                    'email' => 'email|required',
+                    'password' => 'confirmed|required|min:6|alpha_dash'
+                ]);
+            }
+            if ($request->email !== null or $request->password !== null) {
+                $user = User::create([
+                    'name' => $request->nama_lengkap,
+                    'email' => $request->email,
+                    'password' => bcrypt($request->password),
+                ]);
+                $attr['user_id'] = $user->id;
+            }
+        }
         $dataIbu->update($attr);
     }
 
-    public function delete(Request $request){
+    public function delete(Request $request)
+    {
         $dataIbu = DataIbu::FindOrFail($request->id);
         $dataIbu->delete();
-
     }
 }

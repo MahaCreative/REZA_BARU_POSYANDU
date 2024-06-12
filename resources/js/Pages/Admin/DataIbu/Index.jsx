@@ -1,10 +1,13 @@
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import InputText from "@/Components/InputText";
 import Loading from "@/Components/Loading";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Link, router } from "@inertiajs/react";
-import { Add, Delete, Edit } from "@mui/icons-material";
-import { Tooltip } from "@mui/material";
+import { Add, ArrowBack, Delete, Edit } from "@mui/icons-material";
+import { Tooltip, debounce } from "@mui/material";
 import React, { useState } from "react";
+import { useEffect } from "react";
+import { useCallback } from "react";
 import DataTable from "react-data-table-component";
 import Swal from "sweetalert2";
 
@@ -59,7 +62,7 @@ export default function Index(props) {
         {
             name: "Aksi",
             selector: (row) => (
-                <div className="flex gap-3 justify-center">
+                <div className="flex gap-1 justify-center">
                     <button
                         onClick={() => deleteHandler(row.id)}
                         className="py-1 text-xs px-1 rounded-md text-white hover:cursor-pointer hover:bg-red-700 bg-red-500"
@@ -76,6 +79,18 @@ export default function Index(props) {
                             <Edit color="inherit" fontSize="inherit" />
                         </Tooltip>
                     </button>
+                    <Link
+                        href={route("show-pelayanan-ibu", { id: row.id })}
+                        as="button"
+                        className="py-1 text-xs px-1 rounded-md text-white hover:cursor-pointer hover:bg-blue-700 bg-blue-500"
+                    >
+                        <Tooltip title="Lihat semua data pelayanan ibu">
+                            <VisibilityIcon
+                                color="inherit"
+                                fontSize="inherit"
+                            />
+                        </Tooltip>
+                    </Link>
                 </div>
             ),
         },
@@ -127,26 +142,54 @@ export default function Index(props) {
             }
         });
     };
+    const [params, setParams] = useState({ cari: "" });
+    const reload = useCallback(
+        debounce((query) => {
+            router.get(route("admin.data-ibu"), query, {
+                preserveState: true,
+                preserveScroll: true,
+            });
+        }, 150),
+        []
+    );
+    useEffect(() => reload(params), [params]);
     return (
         <div>
             <div className="w-full">
                 <Loading open={openLoading} setOpen={setOpenLoading} />
                 <div className="w-full">
-                    <div className="flex items-center justify-end w-full">
-                     
-                        <div className="flex gap-3 items-center text-white">
+                    <div className="flex justify-between items-center">
+                        <div className="flex gap-3">
                             <Link
+                                as="button"
                                 href={route("admin.form-data-ibu")}
-                                className="py-1 px-2 rounded-lg bg-blue-500 hover:bg-blue-500"
+                                className="py-1 px-2 rounded-lg flex gap-2 items-center bg-blue-500 hover:bg-blue-500 text-white"
                             >
                                 <Add color="inherit" fontSize="small" />
+                                <p>Tambah Data Ibu</p>
                             </Link>
-                            <InputText
+                            <Link
+                                href={route("admin.dashboard")}
+                                className="py-1 px-2 rounded-lg flex gap-2 items-center bg-green-500 hover:bg-green-500 text-white"
+                            >
+                                <ArrowBack color="inherit" fontSize="small" />
+                                <p>Back</p>
+                            </Link>
+                        </div>
+                        <div className="flex gap-3 items-center ">
+                            <input
+                                onChange={(e) =>
+                                    setParams({
+                                        ...params,
+                                        cari: e.target.value,
+                                    })
+                                }
                                 className="bg-white rounded-md overflow-hidden "
-                                label={"Cari Data"}
+                                placeholder={"Cari Data"}
                             />
                         </div>
                     </div>
+
                     <div className="rounded-md w-full py-3">
                         <DataTable
                             data={dataIbu}

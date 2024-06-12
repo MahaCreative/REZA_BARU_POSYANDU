@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('proses_kelahiran');
             $table->string('berat_lahir');
             $table->string('tinggi_lahir');
+            $table->string('dusun');
             $table->string('foto')->default('image/preview_image.jpg');
             $table->timestamps();
         });

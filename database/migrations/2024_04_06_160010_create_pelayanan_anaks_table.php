@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('pelayanan_anaks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('data_kegiatan_id')->references('id')->on('data_kegiatans')->onDelete('cascade')->onUpdate('cascade');
- $table->foreignId('data_anak_id')->references('id')->on('data_anaks')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('data_anak_id')->references('id')->on('data_anaks')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('usia_anak');
             $table->string('berat_badan_sebelumnya');
             $table->string('berat_badan_sekarang');
             $table->string('tinggi_badan_sebelumnya');
@@ -30,13 +31,14 @@ return new class extends Migration
             $table->string('imt_u')->nullable();
             $table->string('status_stunting');
 
-            $table->string('mengidap_diare')->default('tidak_ada');
-            $table->string('pemberian_oralit')->default('tidak_ada');
-            $table->string('pemberian_vit_a')->default('tidak_ada');
+            $table->string('mengidap_diare')->default('tidak ada');
+            $table->string('pemberian_oralit')->default('tidak ada');
+            $table->string('pemberian_vit_a')->default('tidak ada');
             $table->string('pemberian_imunisasi')->default('tidak ada');
             $table->string('pemberian_vaksin')->default('tidak ada');
             $table->string('nomor_imunisasi')->nullable();
             $table->string('nomor_vaksin')->nullable();
+            $table->longText('nasihat')->nullable();
             $table->timestamps();
         });
     }

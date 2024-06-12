@@ -3,7 +3,7 @@ import Loading from "@/Components/Loading";
 import SelectOption from "@/Components/SelectOption";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Link, useForm, usePage } from "@inertiajs/react";
-import { Cancel, Save } from "@mui/icons-material";
+import { ArrowBack, Cancel, Save } from "@mui/icons-material";
 import { MenuItem } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
@@ -11,6 +11,7 @@ import Select from "react-select";
 import DataTable from "react-data-table-component";
 export default function ViewForm(props) {
     const dataIbu = props.dataIbu;
+    const { dusun } = usePage().props;
     const { pekerjaan } = usePage().props;
     const { pendidikan } = usePage().props;
     const { data, setData, post, reset, errors } = useForm({
@@ -26,6 +27,9 @@ export default function ViewForm(props) {
         pendidikan_id: "",
         pekerjaan_id: "",
         foto: "",
+        email: "",
+        password: "",
+        password_confirmation: "",
     });
     const [openLoading, setOpenLoading] = useState(false);
     const updateHandler = (e) => {
@@ -42,7 +46,6 @@ export default function ViewForm(props) {
                         title: "Oops...",
                         text: "Gagal Melakukan melakukan perubahan data Silahkan Cek Formulir Isian Anda",
                     });
-                    
                 }, 1000);
             },
             onSuccess: () => {
@@ -104,16 +107,26 @@ export default function ViewForm(props) {
             pendidikan_id: dataIbu ? dataIbu.pekerjaan_id : "",
             pekerjaan_id: dataIbu ? dataIbu.pendidikan_id : "",
             foto: dataIbu ? dataIbu.foto : "",
+            email: dataIbu ? dataIbu.user?.email : "",
         });
     }, [dataIbu]);
+    console.log(dataIbu);
 
     return (
         <div className="flex flex-col md:flex-row items-center justify-center ">
             <Loading open={openLoading} setOpen={setOpenLoading} />
             <div className="w-full bg-white rounded-md py-2 px-3">
-                <h1 className="text-pink-500 font-light my-3 border-b border-pink-500 inline-block">
-                    Formulir Profile Kader
-                </h1>
+                <div className="flex justify-between items-center">
+                    <h1 className="text-pink-500 font-light my-3 border-b border-pink-500 inline-block">
+                        Formulir Profile Ibu
+                    </h1>
+                    <Link
+                        href={route("admin.data-ibu")}
+                        className="py-1 px-2 rounded-lg bg-blue-500 hover:bg-blue-500 text-white"
+                    >
+                        <ArrowBack color="inherit" fontSize="small" />
+                    </Link>
+                </div>
                 <form onSubmit={dataIbu ? updateHandler : submitHandler}>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                         <InputText
@@ -243,7 +256,7 @@ export default function ViewForm(props) {
                             value={data.desa}
                             error={errors.desa}
                         />
-                        <InputText
+                        <SelectOption
                             onChange={(e) =>
                                 setData({
                                     ...data,
@@ -254,7 +267,16 @@ export default function ViewForm(props) {
                             name="dusun"
                             value={data.dusun}
                             error={errors.dusun}
-                        />
+                        >
+                            <MenuItem value="">
+                                {dataIbu ? dataIbu.dusun : "Pilih Dusun"}
+                            </MenuItem>
+                            {dusun.map((item, key) => (
+                                <MenuItem value={item.nama_dusun}>
+                                    {item.nama_dusun}
+                                </MenuItem>
+                            ))}
+                        </SelectOption>
                         <InputText
                             onChange={(e) =>
                                 setData({
@@ -299,6 +321,61 @@ export default function ViewForm(props) {
                             />
                         </div>
                     </div>
+                    <div className="py-3 rounded-md ">
+                        <p>
+                            Silahkan mengisikan formulir User jika anda ingin
+                            user ini bisa dapat login dan melihat data .
+                        </p>
+                        <div className="flex gap-3 flex-col">
+                            <InputText
+                                onChange={(e) =>
+                                    setData({
+                                        ...data,
+                                        [e.target.name]: e.target.value,
+                                    })
+                                }
+                                type="email"
+                                label={"Email"}
+                                name="email"
+                                value={data.email}
+                                error={errors.email}
+                            />
+                            <div>
+                                {dataIbu && (
+                                    <p className="text-white bg-gray-400 inline-block py1 px-2 rounded-md mb-2 text-xs">
+                                        Jika Tidak ingin mengganti password,
+                                        biarkan kosong
+                                    </p>
+                                )}
+                                <InputText
+                                    onChange={(e) =>
+                                        setData({
+                                            ...data,
+                                            [e.target.name]: e.target.value,
+                                        })
+                                    }
+                                    type="password"
+                                    label={"Password"}
+                                    name="password"
+                                    value={data.password}
+                                    error={errors.password}
+                                />
+                            </div>
+                            <InputText
+                                onChange={(e) =>
+                                    setData({
+                                        ...data,
+                                        [e.target.name]: e.target.value,
+                                    })
+                                }
+                                type="password"
+                                label={"Konfirmasi Password"}
+                                name="password_confirmation"
+                                value={data.password_confirmation}
+                                error={errors.password_confirmation}
+                            />
+                        </div>
+                    </div>
 
                     <div className="flex justify-end items-start my-3">
                         <div className="flex gap-3 items-center">
@@ -323,5 +400,5 @@ export default function ViewForm(props) {
 }
 
 ViewForm.layout = (page) => (
-    <AdminLayout children={page} title={"Form Data Kader"} />
+    <AdminLayout children={page} title={"Form Data Ibu"} />
 );

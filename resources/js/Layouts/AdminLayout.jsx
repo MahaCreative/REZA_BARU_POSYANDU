@@ -1,9 +1,10 @@
 import DropdownSidebar from "@/Components/DropdownSidebar";
 import MenuSidebar from "@/Components/MenuSidebar";
-import { Head } from "@inertiajs/react";
+import { Head, usePage } from "@inertiajs/react";
 import {
     ChildFriendly,
     Contacts,
+    Logout,
     MiscellaneousServicesOutlined,
     PersonAdd,
     PregnantWoman,
@@ -11,10 +12,11 @@ import {
 } from "@mui/icons-material";
 import { Drawer } from "@mui/material";
 import React, { useState } from "react";
-import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
-export default function AdminLayout({ children, title }) {
+import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
+export default function AdminLayout({ children, title, props }) {
+    const { settings } = usePage().props;
     const [drawer, setDrawer] = useState(false);
-
+    const { auth } = usePage().props;
     return (
         <div>
             <Head title={title} />
@@ -29,23 +31,27 @@ export default function AdminLayout({ children, title }) {
             </div>
             {/* Drawer */}
             <Drawer open={drawer} onClose={() => setDrawer(false)}>
-                <div className="bg-pink-600 h-full w-[250px] ">
+                <div className="bg-pink-600 min-h-screen w-[450px] ">
                     <div className="w-full items-center justify-center bg-pink-800 flex gap-5  py-3">
                         <img
-                            src="Image/logo_posyandu.png"
+                            src={"/storage/" + settings.logo}
                             alt=""
                             className="w-[50px] h-[50px] object-cover bg-white rounded-full"
                         />
-                        <p className="text-white font-semibold">
-                            Posyandu Desa Ini
-                        </p>
+                        <div>
+                            <p className="text-white font-semibold capitalize">
+                                {settings.nama_posyandu}
+                            </p>
+                            <p className="text-xs font-light text-white italic capitalize">
+                                {settings.alamat}
+                            </p>
+                        </div>
                     </div>
                     {/* Menu */}
                     <div>
                         <p className="font-light text-white px-4 pt-3 text-sm">
                             General
                         </p>
-
                         <MenuSidebar
                             link={"admin.dashboard"}
                             title={"Dashboard"}
@@ -53,129 +59,107 @@ export default function AdminLayout({ children, title }) {
                                 <Widgets color="inherit" fontSize="inherit" />
                             }
                         />
-
-                        {/* Dropdownd Menu */}
-                        <DropdownSidebar
-                            title={"Master Data"}
-                            logo={
-                                <MiscellaneousServicesOutlined
-                                    color="inherit"
-                                    fontSize="inherit"
-                                />
-                            }
-                        >
+                        {auth.roles == "ketua posyandu" && (
                             <MenuSidebar
-                                link={"admin.jenis-vaksin"}
+                                link={"admin.setting-apps"}
+                                title={"Setting Applikasi"}
                                 logo={
-                                    <MiscellaneousServicesOutlined
+                                    <Widgets
                                         color="inherit"
                                         fontSize="inherit"
                                     />
                                 }
-                                title={"Jenis Vaksin & Imunisasi"}
                             />
-
-                            <MenuSidebar
-                                link={"admin.data-kader"}
-                                logo={
-                                    <Contacts
-                                        color="inherit"
-                                        fontSize="inherit"
-                                    />
-                                }
-                                title={"Data Kader"}
-                            />
-                            <MenuSidebar
-                                link={"admin.data-ibu"}
-                                logo={
-                                    <PregnantWoman
-                                        color="inherit"
-                                        fontSize="inherit"
-                                    />
-                                }
-                                title={"Data Ibu"}
-                            />
-                            <MenuSidebar
-                                link={"admin.data-anak"}
-                                logo={
-                                    <ChildFriendly
-                                        color="inherit"
-                                        fontSize="inherit"
-                                    />
-                                }
-                                title={"Data Anak"}
-                            />
-                            <MenuSidebar
-                                link={"admin.data-keanggotaan-ibu"}
-                                logo={
-                                    <PersonAdd
-                                        color="inherit"
-                                        fontSize="inherit"
-                                    />
-                                }
-                                title={"Pendaftaran Keanggotaan Ibu"}
-                            />
-                            <MenuSidebar
-                                link={"admin.data-kegiatan"}
-                                logo={
-                                    <AccessTimeFilledIcon
-                                        color="inherit"
-                                        fontSize="inherit"
-                                    />
-                                }
-                                title={"Kelola Jadwal Kegiatan"}
-                            />
-                        </DropdownSidebar>
-                         <DropdownSidebar
-                            title={"Pelayanan"}
-                            logo={
-                                <MiscellaneousServicesOutlined
-                                    color="inherit"
-                                    fontSize="inherit"
-                                />
-                            }
-                            >
-                             <MenuSidebar
-                                    link={"admin.data-kegiatan"}
+                        )}
+                        <p className="font-light text-white px-4 pt-3 text-sm">
+                            Master Data
+                        </p>
+                        {auth.roles == "ketua posyandu" && (
+                            <>
+                                <MenuSidebar
+                                    link={"admin.data-dusun"}
                                     logo={
-                                        <AccessTimeFilledIcon
+                                        <MiscellaneousServicesOutlined
                                             color="inherit"
                                             fontSize="inherit"
                                         />
                                     }
-                                    title={"Pelayanan Anak"}
+                                    title={"Data Dusun"}
                                 />
                                 <MenuSidebar
-                                    link={"admin.data-kegiatan"}
+                                    link={"admin.jenis-vaksin"}
                                     logo={
-                                        <AccessTimeFilledIcon
+                                        <MiscellaneousServicesOutlined
                                             color="inherit"
                                             fontSize="inherit"
                                         />
                                     }
-                                    title={"Pelayanan Ibu"}
+                                    title={"Jenis Vaksin & Imunisasi"}
                                 />
-                        </DropdownSidebar>
-                        <DropdownSidebar
-                            title={"Statistik Pelayanan"}
+                                <MenuSidebar
+                                    link={"admin.data-kader"}
+                                    logo={
+                                        <Contacts
+                                            color="inherit"
+                                            fontSize="inherit"
+                                        />
+                                    }
+                                    title={"Data Kader"}
+                                />
+                            </>
+                        )}
+                        <MenuSidebar
+                            link={"admin.data-ibu"}
                             logo={
-                                <MiscellaneousServicesOutlined
+                                <PregnantWoman
                                     color="inherit"
                                     fontSize="inherit"
                                 />
                             }
-                        >
-                        </DropdownSidebar>
-                          <DropdownSidebar
-                            title={"Laporan"}
+                            title={"Data Ibu"}
+                        />
+                        <MenuSidebar
+                            link={"admin.data-anak"}
                             logo={
-                                <MiscellaneousServicesOutlined
+                                <ChildFriendly
                                     color="inherit"
                                     fontSize="inherit"
                                 />
                             }
-                        >
-                        </DropdownSidebar>
+                            title={"Data Anak"}
+                        />
+                        <MenuSidebar
+                            link={"admin.data-keanggotaan-ibu"}
+                            logo={
+                                <PersonAdd color="inherit" fontSize="inherit" />
+                            }
+                            title={"Pendaftaran Keanggotaan Ibu"}
+                        />
+                        <MenuSidebar
+                            link={"admin.data-kegiatan"}
+                            logo={
+                                <AccessTimeFilledIcon
+                                    color="inherit"
+                                    fontSize="inherit"
+                                />
+                            }
+                            title={"Kelola Jadwal Kegiatan"}
+                        />
+                        <MenuSidebar
+                            link={"admin.laporan-data-stunting"}
+                            logo={
+                                <AccessTimeFilledIcon
+                                    color="inherit"
+                                    fontSize="inherit"
+                                />
+                            }
+                            title={"Laporan Data Stunting"}
+                        />
+                        <MenuSidebar
+                            link={"logout"}
+                            logo={<Logout color="inherit" fontSize="inherit" />}
+                            title={"Logout"}
+                        />
                     </div>
                 </div>
             </Drawer>

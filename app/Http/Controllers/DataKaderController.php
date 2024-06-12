@@ -10,7 +10,12 @@ class DataKaderController extends Controller
 {
     public function index(Request $request)
     {
-        $dataKader = DataKader::latest()->get();
+
+        $query = DataKader::query();
+        if ($request->cari) {
+            $query->where('nama_lengkap', 'like', '%' . $request->cari . '%')->orWhere('nik', 'like', '%' . $request->cari . '%');
+        }
+        $dataKader = $query->latest()->get();
         return inertia('Admin/DataKader/Index', compact('dataKader'));
     }
     public function form(Request $request)
@@ -27,7 +32,7 @@ class DataKaderController extends Controller
             'tempat_lahir' => 'required',
             'tgl_lahir' => 'required',
             'alamat' => 'required',
-            'telephone' => 'required|numeric',
+            'telephone' => 'required|numeric|unique:data_kaders,telephone',
             'foto' => 'required|image|mimes:png,jpeg,jpeg',
         ]);
         if ($request->email != null or $request->password !== null) {
@@ -35,18 +40,18 @@ class DataKaderController extends Controller
                 'email' => 'email|required',
                 'password' => 'confirmed|required|min:6|alpha_dash'
             ]);
-        }
-        $foto = $request->file('foto')->store('FotoKader');
-        $attr['foto'] = $foto;
-
-        if ($request->email !== null or $request->password !== null) {
             $user = User::create([
                 'name' => $request->nama_lengkap,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
             ]);
             $attr['user_id'] = $user->id;
+            $user->assignRole('kader posyandu');
         }
+        $foto = $request->file('foto')->store('FotoKader');
+        $attr['foto'] = $foto;
+
+
         $dataKader = DataKader::create($attr);
     }
 
@@ -62,7 +67,7 @@ class DataKaderController extends Controller
         $dataKader = DataKader::with('user')->findOrFail($request->id);
         $attr = $request->validate([
             'nama_lengkap' => 'required|string|min:3',
-            'nik' => 'required|digits:16|unique:data_kaders,nik',
+            'nik' => 'required|digits:16|unique:data_kaders,nik,' . $request->id,
             'tempat_lahir' => 'required',
             'tgl_lahir' => 'required',
             'alamat' => 'required',

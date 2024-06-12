@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('data_ibus', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->nullable();
             $table->string('nama_lengkap');
             $table->string('nik');
             $table->string('tempat_lahir');

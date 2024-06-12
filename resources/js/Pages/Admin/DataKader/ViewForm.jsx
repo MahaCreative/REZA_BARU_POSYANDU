@@ -2,7 +2,7 @@ import InputText from "@/Components/InputText";
 import Loading from "@/Components/Loading";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Link, useForm } from "@inertiajs/react";
-import { Cancel, Save } from "@mui/icons-material";
+import { ArrowBack, Cancel, Save } from "@mui/icons-material";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
@@ -100,9 +100,17 @@ export default function ViewForm(props) {
         <div className="flex flex-col md:flex-row items-center justify-center ">
             <Loading open={openLoading} setOpen={setOpenLoading} />
             <div className="w-full bg-white rounded-md py-2 px-3">
-                <h1 className="text-pink-500 font-light my-3 border-b border-pink-500 inline-block">
-                    Formulir Profile Kader
-                </h1>
+                <div className="flex justify-between items-center">
+                    <h1 className="text-pink-500 font-light my-3 border-b border-pink-500 inline-block">
+                        Formulir Profile Kader
+                    </h1>
+                    <Link
+                        href={route("admin.data-kader")}
+                        className="py-1 px-2 rounded-lg bg-blue-500 hover:bg-blue-500 text-white"
+                    >
+                        <ArrowBack color="inherit" fontSize="small" />
+                    </Link>
+                </div>
                 <form onSubmit={dataKader ? updateHandler : submitHandler}>
                     <div className="grid grid-cols-2 gap-3">
                         <InputText

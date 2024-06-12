@@ -8,12 +8,16 @@ use App\Models\DataIbu;
 use App\Models\DataAnak;
 use App\Models\DataKader;
 use App\Models\DataKegiatan;
+use App\Models\Dusun;
 use App\Models\JenisImunisasi;
 use App\Models\JenisVaksin;
 use App\Models\KeanggotaanIbu;
 use App\Models\PelayananAnak;
 use App\Models\PelayananIbu;
+use App\Models\SettingApps;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -25,7 +29,28 @@ class DatabaseSeeder extends Seeder
         $this->call([
             PekerjaanSeeder::class,
             PendidikanSeeder::class,
+            SettingAppsSeeder::class,
         ]);
+        Role::create(['name' => 'ketua posyandu', 'guard_name' => 'web']);
+        Role::create(['name' => 'kader posyandu', 'guard_name' => 'web']);
+        Role::create(['name' => 'ibu', 'guard_name' => 'web']);
+        $user = User::create([
+            "name" => 'ketua posyandu',
+            "email" => 'ketuaposyandu@gmail.com',
+            "password" => bcrypt('password'),
+        ]);
+        $dataKader = DataKader::create([
+            'user_id' => $user->id,
+            "nama_lengkap" => 'ketua posyandu',
+            "nik" => '7306071701980005',
+            "tempat_lahir" => 'makassar',
+            "tgl_lahir" => '1998-01-17',
+            "alamat" => 'jl diponegoro kelurahan karema',
+            "telephone" => '082194255174',
+        ]);
+        $user->assignRole('ketua posyandu');
+        $user->assignRole('kader posyandu');
+        Dusun::factory(4)->create();
         JenisVaksin::factory(4)->create();
         JenisImunisasi::factory(4)->create();
         DataKader::factory(10)->create();
@@ -40,7 +65,7 @@ class DatabaseSeeder extends Seeder
         });
 
 
-        DataKegiatan::factory(20)->create()->each(function($kegiatan){
+        DataKegiatan::factory(200)->create()->each(function ($kegiatan) {
             $kegiatan->PelayananAnak()->saveMany(
                 PelayananAnak::factory(30)->make()
             );
@@ -48,8 +73,5 @@ class DatabaseSeeder extends Seeder
                 PelayananIbu::factory(30)->make()
             );
         });
-
-      
-
     }
 }
