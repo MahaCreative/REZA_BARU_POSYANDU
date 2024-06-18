@@ -111,7 +111,7 @@ class KegiatanController extends Controller
     public function get_pelayanan_ibu($request)
     {
         $dataKegiatan = DataKegiatan::where('kd_kegiatan', '=', $request->kd_kegiatan)->first();
-        $queryPelayananIbu = PelayananIbu::query()->with('ibu');
+        $queryPelayananIbu = PelayananIbu::query()->where('data_kegiatan_id', $dataKegiatan->id)->with('ibu');
         if ($request->cari_ibu) {
             $queryPelayananIbu->whereHas('ibu', function ($q) use ($request) {
                 $q->where('nama_lengkap', 'like', '%' . $request->cari_ibu . '%');

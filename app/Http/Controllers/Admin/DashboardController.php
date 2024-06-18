@@ -14,6 +14,8 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
+
+
         $stuntingPertahun = PelayananAnak::status_stunting_pertahun();
         $count_stunting_perdusun = PelayananAnak::count_status_stunting_perdusun();
         $countAnak = DataAnak::count();

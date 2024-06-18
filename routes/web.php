@@ -7,6 +7,7 @@ use App\Http\Controllers\DataIbuController;
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\KeanggotaanIbuController;
 use App\Http\Controllers\DataKaderController;
+use App\Http\Controllers\Ibu\DataAnakController as IbuDataAnakController;
 use App\Http\Controllers\JenisVaksinController;
 use App\Http\Controllers\LaporanDataStuntingController;
 use App\Http\Controllers\LoginController;
@@ -117,7 +118,9 @@ Route::middleware(['auth', 'role:kader posyandu'])->group(function () {
 });
 
 
-
+Route::middleware(['auth', 'role:ibu'])->group(function () {
+    Route::get('ibu/data-anak', [IbuDataAnakController::class, 'index'])->name('ibu.data-anak');
+});
 
 
 

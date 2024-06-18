@@ -39,9 +39,11 @@ class HandleInertiaRequests extends Middleware
         $setting = SettingApps::first();
         $dusun = Dusun::latest()->get();
         $roles = null;
+
         if ($request->user()) {
             $roles = $request->user()->getRoleNames()[0];
         }
+
         return [
             ...parent::share($request),
             'pekerjaan' => Pekerjaan::all(),

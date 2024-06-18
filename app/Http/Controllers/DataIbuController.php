@@ -41,10 +41,12 @@ class DataIbuController extends Controller
             'foto' => 'required|mimes:png,jpeg,jpg|image',
         ]);
         if ($request->email != null or $request->password !== null) {
+
             $request->validate([
-                'email' => 'email|required',
+                'email' => 'email|required|unique:users,email',
                 'password' => 'confirmed|required|min:6|alpha_dash'
             ]);
+
             $user = User::create([
                 'name' => $request->nama_lengkap,
                 'email' => $request->email,
@@ -68,40 +70,36 @@ class DataIbuController extends Controller
     public function update(Request $request)
     {
 
+        $dataKader = DataIbu::with('user')->findOrFail($request->id);
         $attr = $request->validate([
             'nama_lengkap' => 'required|string|min:3',
-            'nik' => 'required|numeric|digits:16',
-            'tempat_lahir' => 'required|string|min:3',
+            'nik' => 'required|digits:16|unique:data_kaders,nik,' . $request->id,
+            'tempat_lahir' => 'required',
             'tgl_lahir' => 'required',
-            'gol_darah' => 'required',
-            'alamat' => 'required|string|min:4',
-            'desa' => 'required|string|min:4',
-            'dusun' => 'required|string|min:4',
-            'telephone' => 'required|numeric|digits:12',
-            'pendidikan_id' => 'required',
-            'pekerjaan_id' => 'required',
+            'alamat' => 'required',
+            'telephone' => 'required|numeric',
 
         ]);
-        $dataIbu = DataIbu::findOrFail($request->id);
-        if ($request->file('foto')) {
-            $request->validate([
-                'foto' => 'required|mimes:png,jpg,jpeg|image',
-            ]);
-            $attr['foto'] = $request->file('foto') ? $request->file('foto')->store('FotoIbu') : $dataIbu->foto;
+        $foto = '';
+
+        if ($request->hasFile('foto')) {
+            $request->validate(['foto' => 'nullable|image|mimes:png,jpeg,jpeg',]);
+            $foto = $request->file('foto')->store('FotoKader');
         }
-        if ($dataIbu->user != null) {
+
+        if ($dataKader->user != null) {
 
             if ($request->password) {
                 $request->validate([
                     'password' => 'confirmed|required|min:6|alpha_dash'
                 ]);
             }
-            $dataIbu->user()->update([
+            $dataKader->user()->update([
                 'name' => $request->nama_lengkap,
                 'email' => $request->email,
-                'password' => $request->password ? bcrypt($request->password) : $dataIbu->user->password
+                'password' => $request->password ? bcrypt($request->password) : $dataKader->user->password
             ]);
-            $attr['user_id'] = $dataIbu->user->id;
+            $attr['user_id'] = $dataKader->user->id;
         } else {
 
             if ($request->email != null or $request->password !== null) {
@@ -119,7 +117,7 @@ class DataIbuController extends Controller
                 $attr['user_id'] = $user->id;
             }
         }
-        $dataIbu->update($attr);
+        $dataKader->update($attr);
     }
 
     public function delete(Request $request)

@@ -54,8 +54,12 @@ class PelayananIbuController extends Controller
 
     public function show_per_ibu(Request $request)
     {
-
-        $ibu = DataIbu::with('pekerjaan', 'pendidikan')->findOrFail($request->id);
+        if ($request->id == null) {
+            $user = $request->user();
+            $ibu = DataIbu::with('pekerjaan', 'pendidikan')->where('user_id', $user->id)->first();
+        } else {
+            $ibu = DataIbu::with('pekerjaan', 'pendidikan')->findOrFail($request->id);
+        }
         $allPelayanan = PelayananIbu::where('data_ibu_id', $ibu->id)->latest()->get();
         $stat_pelayanan = PelayananIbu::where('data_ibu_id', $ibu->id)->latest()->get()->take(12);
         return inertia('Admin/PelayananIbu/ShowPerIbu', compact('ibu', 'allPelayanan', 'stat_pelayanan'));

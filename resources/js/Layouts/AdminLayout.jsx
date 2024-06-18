@@ -4,6 +4,8 @@ import { Head, usePage } from "@inertiajs/react";
 import {
     ChildFriendly,
     Contacts,
+    Face2,
+    List,
     Logout,
     MiscellaneousServicesOutlined,
     PersonAdd,
@@ -108,53 +110,85 @@ export default function AdminLayout({ children, title, props }) {
                                 />
                             </>
                         )}
-                        <MenuSidebar
-                            link={"admin.data-ibu"}
-                            logo={
-                                <PregnantWoman
-                                    color="inherit"
-                                    fontSize="inherit"
+                        {auth.roles !== "ibu" && (
+                            <>
+                                <MenuSidebar
+                                    link={"admin.data-ibu"}
+                                    logo={
+                                        <PregnantWoman
+                                            color="inherit"
+                                            fontSize="inherit"
+                                        />
+                                    }
+                                    title={"Data Ibu"}
                                 />
-                            }
-                            title={"Data Ibu"}
-                        />
-                        <MenuSidebar
-                            link={"admin.data-anak"}
-                            logo={
-                                <ChildFriendly
-                                    color="inherit"
-                                    fontSize="inherit"
+                                <MenuSidebar
+                                    link={"admin.data-anak"}
+                                    logo={
+                                        <ChildFriendly
+                                            color="inherit"
+                                            fontSize="inherit"
+                                        />
+                                    }
+                                    title={"Data Anak"}
                                 />
-                            }
-                            title={"Data Anak"}
-                        />
-                        <MenuSidebar
-                            link={"admin.data-keanggotaan-ibu"}
-                            logo={
-                                <PersonAdd color="inherit" fontSize="inherit" />
-                            }
-                            title={"Pendaftaran Keanggotaan Ibu"}
-                        />
-                        <MenuSidebar
-                            link={"admin.data-kegiatan"}
-                            logo={
-                                <AccessTimeFilledIcon
-                                    color="inherit"
-                                    fontSize="inherit"
+                                <MenuSidebar
+                                    link={"admin.data-keanggotaan-ibu"}
+                                    logo={
+                                        <PersonAdd
+                                            color="inherit"
+                                            fontSize="inherit"
+                                        />
+                                    }
+                                    title={"Pendaftaran Keanggotaan Ibu"}
                                 />
-                            }
-                            title={"Kelola Jadwal Kegiatan"}
-                        />
-                        <MenuSidebar
-                            link={"admin.laporan-data-stunting"}
-                            logo={
-                                <AccessTimeFilledIcon
-                                    color="inherit"
-                                    fontSize="inherit"
+                                <MenuSidebar
+                                    link={"admin.data-kegiatan"}
+                                    logo={
+                                        <AccessTimeFilledIcon
+                                            color="inherit"
+                                            fontSize="inherit"
+                                        />
+                                    }
+                                    title={"Kelola Jadwal Kegiatan"}
                                 />
-                            }
-                            title={"Laporan Data Stunting"}
-                        />
+                                <MenuSidebar
+                                    link={"admin.laporan-data-stunting"}
+                                    logo={
+                                        <AccessTimeFilledIcon
+                                            color="inherit"
+                                            fontSize="inherit"
+                                        />
+                                    }
+                                    title={"Laporan Data Stunting"}
+                                />
+                            </>
+                        )}
+                        {auth.roles === "ibu" && (
+                            <>
+                                <MenuSidebar
+                                    link={"ibu.data-anak"}
+                                    logo={
+                                        <ChildFriendly
+                                            color="inherit"
+                                            fontSize="inherit"
+                                        />
+                                    }
+                                    title={"Data Anak"}
+                                />
+
+                                <MenuSidebar
+                                    link={"show-pelayanan-ibu"}
+                                    logo={
+                                        <List
+                                            color="inherit"
+                                            fontSize="inherit"
+                                        />
+                                    }
+                                    title={"Data Pelayanan Ibu"}
+                                />
+                            </>
+                        )}
                         <MenuSidebar
                             link={"logout"}
                             logo={<Logout color="inherit" fontSize="inherit" />}

@@ -53,7 +53,7 @@ class DatabaseSeeder extends Seeder
         Dusun::factory(4)->create();
         JenisVaksin::factory(4)->create();
         JenisImunisasi::factory(4)->create();
-        DataKader::factory(10)->create();
+        // DataKader::factory(10)->create();
         DataIbu::factory(50)->create()->each(function ($ibu) {
             $ibu->keanggotaan()->saveMany(
                 KeanggotaanIbu::factory(3)->make()
