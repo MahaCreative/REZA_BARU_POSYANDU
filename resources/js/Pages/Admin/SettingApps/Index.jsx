@@ -63,7 +63,7 @@ export default function Index(props) {
                             onChange={(e) =>
                                 setData({
                                     ...data,
-                                    nama_posyandu: e.target.files[0],
+                                    nama_posyandu: e.target.value,
                                 })
                             }
                         />
@@ -75,7 +75,7 @@ export default function Index(props) {
                             onChange={(e) =>
                                 setData({
                                     ...data,
-                                    alamat: e.target.files[0],
+                                    alamat: e.target.value,
                                 })
                             }
                         />
@@ -87,7 +87,7 @@ export default function Index(props) {
                             onChange={(e) =>
                                 setData({
                                     ...data,
-                                    desa: e.target.files[0],
+                                    desa: e.target.value,
                                 })
                             }
                         />
@@ -99,7 +99,7 @@ export default function Index(props) {
                             onChange={(e) =>
                                 setData({
                                     ...data,
-                                    kecamatan: e.target.files[0],
+                                    kecamatan: e.target.value,
                                 })
                             }
                         />
@@ -111,7 +111,7 @@ export default function Index(props) {
                             onChange={(e) =>
                                 setData({
                                     ...data,
-                                    nama_ketua_posyandu: e.target.files[0],
+                                    nama_ketua_posyandu: e.target.value,
                                 })
                             }
                         />
