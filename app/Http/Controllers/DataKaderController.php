@@ -33,7 +33,7 @@ class DataKaderController extends Controller
             'tgl_lahir' => 'required',
             'alamat' => 'required',
             'telephone' => 'required|numeric|unique:data_kaders,telephone',
-            'foto' => 'required|image|mimes:png,jpeg,jpeg',
+            'foto' => 'nullable|image|mimes:png,jpeg,jpeg',
         ]);
         if ($request->email != null or $request->password !== null) {
             $request->validate([
@@ -48,8 +48,12 @@ class DataKaderController extends Controller
             $attr['user_id'] = $user->id;
             $user->assignRole('kader posyandu');
         }
-        $foto = $request->file('foto')->store('FotoKader');
-        $attr['foto'] = $foto;
+        if ($request->file('foto')) {
+            $foto = $request->file('foto')->store('FotoKader');
+            $attr['foto'] = $foto;
+        } else {
+            $attr['foto'] = 'Image/profile.png';
+        }
 
 
         $dataKader = DataKader::create($attr);

@@ -38,7 +38,7 @@ class DataIbuController extends Controller
             'telephone' => 'required|numeric|digits:12|unique:data_ibus,telephone',
             'pendidikan_id' => 'required',
             'pekerjaan_id' => 'required',
-            'foto' => 'required|mimes:png,jpeg,jpg|image',
+            'foto' => 'nullable|mimes:png,jpeg,jpg|image',
         ]);
         if ($request->email != null or $request->password !== null) {
 
@@ -57,6 +57,8 @@ class DataIbuController extends Controller
         }
         if ($request->file('foto')) {
             $attr['foto'] = $request->file('foto')->store('FotoIbu', 'public');
+        } else {
+            $attr['foto'] = 'Image/profile.png';
         }
 
         $dataIbu = DataIbu::create($attr);
