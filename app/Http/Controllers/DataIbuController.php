@@ -119,6 +119,7 @@ class DataIbuController extends Controller
                 $attr['user_id'] = $user->id;
             }
         }
+        $user->assignRole('ibu');
         $dataKader->update($attr);
     }
 
