@@ -36,7 +36,7 @@ export default function Index({ ...props }) {
             selector: (row) => (
                 <div className="flex gap-3 justify-center">
                     <button
-                        onClick={() => deleteHandler(item.id)}
+                        onClick={() => deleteHandler(row.id)}
                         className="py-1 text-xs px-1 rounded-md text-white hover:cursor-pointer hover:bg-red-700 bg-red-500"
                     >
                         <Tooltip title="Hapus">
@@ -44,7 +44,7 @@ export default function Index({ ...props }) {
                         </Tooltip>
                     </button>
                     <button
-                        onClick={() => editHandler(item)}
+                        onClick={() => editHandler(row)}
                         className="py-1 text-xs px-1 rounded-md text-white hover:cursor-pointer hover:bg-orange-700 bg-orange-500"
                     >
                         <Tooltip title="Edit">
@@ -73,7 +73,7 @@ export default function Index({ ...props }) {
             selector: (row) => (
                 <div className="flex gap-3 justify-center">
                     <button
-                        onClick={() => deleteHandlerVaksin(item.id)}
+                        onClick={() => deleteHandlerVaksin(row.id)}
                         className="py-1 text-xs px-1 rounded-md text-white hover:cursor-pointer hover:bg-red-700 bg-red-500"
                     >
                         <Tooltip title="Hapus">
@@ -81,7 +81,7 @@ export default function Index({ ...props }) {
                         </Tooltip>
                     </button>
                     <button
-                        onClick={() => editHandlerVaksin(item)}
+                        onClick={() => editHandlerVaksin(row)}
                         className="py-1 text-xs px-1 rounded-md text-white hover:cursor-pointer hover:bg-orange-700 bg-orange-500"
                     >
                         <Tooltip title="Edit">
@@ -198,7 +198,7 @@ export default function Index({ ...props }) {
             </div>
             {/* Data Vaksin */}
             <div className="">
-                <h1 className="text-white font-semibold">Data Imunisasi</h1>
+                <h1 className="text-white font-semibold">Data Vaksin</h1>
                 <div className="flex flex-col md:flex-row justify-between items-start gap-4">
                     <div className="bg-white min-h-[50vh]  w-full md:w-[80%] px-4 py-4 rounded-md overflow-x-auto">
                         <DataTable
