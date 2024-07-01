@@ -44,14 +44,26 @@ class KeanggotaanIbuController extends Controller
             "hpht" => "required|date",
             "htp" => "required|date",
             "hamil_ke" => "required|numeric",
-            "foto_ktp" => "required|image|mimes:jpg,jpeg,png",
-            "foto_kk" => "required|image|mimes:jpg,jpeg,png",
+            "foto_ktp" => "nullable",
+            "foto_kk" => "nullable",
             'riwayat_penyakit' => 'nullable|string',
         ]);
+        if ($request->hasFile('foto_ktp')) {
+            $request->validate([
+                "foto_ktp" => "required|image|mimes:jpg,jpeg,png",
+
+            ]);
+            $attr['foto_ktp'] = $request->file('foto_ktp')->store('Berkas_Keanggotaan_Ibu/KTP');
+        }
+        if ($request->hasFile('foto_kk')) {
+            $request->validate([
+                "foto_kk" => "required|image|mimes:jpg,jpeg,png",
+            ]);
+
+            $attr['foto_kk'] = $request->file('foto_kk')->store('Berkas_Keanggotaan_Ibu/KK');
+        }
         $attr['tanggal_pendaftaran'] = now();
         $attr['kode_anggota'] = now()->format('ymd') . $request->data_ibu_id . KeanggotaanIbu::count() + 1;
-        $attr['foto_ktp'] = $request->file('foto_ktp')->store('Berkas_Keanggotaan_Ibu/KTP');
-        $attr['foto_kk'] = $request->file('foto_kk')->store('Berkas_Keanggotaan_Ibu/KK');
         $attr['data_ibu_id'] = $request->data_ibu_id;
         $keanggotaanIbu = KeanggotaanIbu::create($attr);
     }

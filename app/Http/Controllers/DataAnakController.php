@@ -47,7 +47,7 @@ class DataAnakController extends Controller
             'berat_lahir' => "required",
             'tinggi_lahir' => "required",
             'data_ibu_id' => "required",
-            'foto' => 'nullable|image|mimes:jpg,jpeg,png',
+            'foto' => 'nullable',
             'dusun' => 'required',
         ]);
         $request->validate([
@@ -60,6 +60,9 @@ class DataAnakController extends Controller
         ]);
         if ($request->hasFile('foto')) {
             $attr['foto'] = $request->file('foto')->store('DataAnak');
+            $request->validate([
+                'foto' => 'image|mimes:jpg,jpeg,png'
+            ]);
         } else {
             $attr['foto'] = 'Image/profile.png';
         }
@@ -79,14 +82,14 @@ class DataAnakController extends Controller
             'berat_lahir' => "required",
             'tinggi_lahir' => "required",
             'data_ibu_id' => "required",
-            'foto' => 'nullable|image|mimes:jpg,jpeg,png'
+            'foto' => 'nullable'
 
         ]);
 
         $dataAnak = DataAnak::findOrFail($request->id);
         if ($request->hasFile('foto')) {
             $request->validate([
-                'foto' => 'nullable|image|mimes:jpg,jpeg,png'
+                'foto' => 'image|mimes:jpg,jpeg,png'
             ]);
             $attr['foto'] = $request->file('foto') ? $request->file('foto')->store('Dataanak') : $dataAnak->foto;
         }
