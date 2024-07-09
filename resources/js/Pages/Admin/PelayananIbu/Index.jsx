@@ -9,6 +9,7 @@ import { useCallback } from "react";
 import { useEffect } from "react";
 import InputText from "@/Components/InputText";
 import { Link, router } from "@inertiajs/react";
+import Swal from "sweetalert2";
 
 export default function Index(props) {
     const dataIbu = props.dataIbu;
@@ -27,7 +28,7 @@ export default function Index(props) {
             selector: (row) => (
                 <div>
                     <button
-                        onClick={() => setModel(row)}
+                        onClick={() => pilihIbu(row)}
                         className="py-1 text-xs px-1 rounded-md text-white hover:cursor-pointer hover:bg-blue-700 bg-blue-500"
                     >
                         <Tooltip title="Pilih ke anggotaan ibu">
@@ -51,19 +52,21 @@ export default function Index(props) {
         {
             name: "Kode Anggota",
             selector: (row) =>
-                row.keanggotaan[row.keanggotaan.length - 1].kode_anggota,
+                row.keanggotaan &&
+                row.keanggotaan[row.keanggotaan.length - 1]?.kode_anggota,
             wrap: true,
         },
         {
             name: "HPHT",
-            selector: (row) => row.keanggotaan[row.keanggotaan.length - 1].hpht,
+            selector: (row) =>
+                row.keanggotaan[row.keanggotaan.length - 1]?.hpht,
             wrap: true,
         },
         {
             name: "Hamil Ke",
             selector: (row) =>
                 "Anak ke " +
-                row.keanggotaan[row.keanggotaan.length - 1].hamil_ke,
+                row.keanggotaan[row.keanggotaan.length - 1]?.hamil_ke,
             wrap: true,
         },
     ];
@@ -81,6 +84,17 @@ export default function Index(props) {
         []
     );
     useEffect(() => reload(params), [params]);
+    const pilihIbu = (row) => {
+        if (row.keanggotaan.length > 0) {
+            setModel(row);
+        } else {
+            Swal.fire({
+                title: "Error",
+                text: "Data ibu yang anda pilih belum anda daftarkan sebagai anggota. Silahkan tambahkan keanggotaan ibu terlebih dahulu untuk memberikan pelayanan",
+                icon: "error",
+            });
+        }
+    };
     return (
         <div>
             <div className="flex justify-between items-center my-3">

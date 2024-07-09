@@ -118,9 +118,9 @@ class DataIbuController extends Controller
                     'password' => bcrypt($request->password),
                 ]);
                 $attr['user_id'] = $user->id;
+                $user->assignRole('ibu');
             }
         }
-        $user->assignRole('ibu');
         $dataKader->update($attr);
     }
 

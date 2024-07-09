@@ -45,7 +45,7 @@ export default function Index() {
                     />
                 </div>
                 <div className="top-0 left-0 w-full h-full bg-slate-950/50 absolute">
-                    <div className="relative w-full h-full flex items-center">
+                    <div className="relative w-full h-full flex items-center px-8">
                         <div className="px-4 w-1/2">
                             <h3 className="font-bold text-white tracking-tighter text-3xl">
                                 Selamat Datang di, Sistem Informasi Monitoring
@@ -59,28 +59,14 @@ export default function Index() {
                                 ibu yang terdaftar pada posyandu ini bisa dapat
                                 memantau perkembangan dan pertumbuhan anak.
                             </p>
-                            <button
+                            {/* <button
                                 onClick={() => setModal(true)}
                                 className="bg-pink-500 py-2 px-3 rounded-md text-white tracking-tighter font-bold mt-3"
                             >
                                 Login Sekarang
-                            </button>
+                            </button> */}
                         </div>
-                    </div>
-                </div>
-            </div>
-            <Modal open={modal} onClose={() => setModal(false)}>
-                <div className="w-full h-screen flex justify-center items-center">
-                    <div className="flex flex-col md:flex-row justify-between items-center gap-3">
-                        <div className="w-full bg-white py-2 px-3 rounded-md h-full ">
-                            <p className="text-pink-500 tracking-tighter font-bold ">
-                                Selamat Data Di Sistem Informasi Monitoring
-                                Tumbuh Kembang Anak Untuk Pencegahan Stunting
-                            </p>
-                            <p>
-                                Silahkan login untuk menggunakan sistem
-                                informasi ini.
-                            </p>
+                        <div className="w-full md:w-1/2 bg-white py-2 px-3 rounded-md relative  ">
                             <form action="" onSubmit={submit}>
                                 <InputText
                                     name="email"
@@ -137,7 +123,7 @@ export default function Index() {
                         </div>
                     </div>
                 </div>
-            </Modal>
+            </div>
         </div>
     );
 }

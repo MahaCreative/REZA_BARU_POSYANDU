@@ -41,79 +41,116 @@ export default function FormPelayanan({ model, setModel, kegiatan }) {
             (sekarang - hpht) / (1000 * 60 * 60 * 24)
         );
         const minggu = Math.floor(selisihHari / 7);
-        console.log(model);
+
         setData({
             ...data,
             umur_kehamilan: model ? minggu : 0,
             data_ibu_id: model ? model.id : "",
-            tinggi_badan_sebelumnya: model?.pelayanan_ibu
-                ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1]
-                      .tinggi_badan
-                : "Belum pernahh mendapatkan pemeriksaan",
-            berat_badan_sebelumnya: model?.pelayanan_ibu
-                ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1]
-                      .berat_badan
-                : "Belum pernahh mendapatkan pemeriksaan",
-            lingkar_lengan_sebelumnya: model?.pelayanan_ibu
-                ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1]
-                      .lingkar_lengan
-                : "Belum pernahh mendapatkan pemeriksaan",
-            lingkar_perut_sebelumnya: model?.pelayanan_ibu
-                ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1]
-                      .lingkar_perut
-                : "Belum pernahh mendapatkan pemeriksaan",
-            tinggi_fundus_sebelumnya: model?.pelayanan_ibu
-                ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1]
-                      .tinggi_fundus
-                : "Belum pernahh mendapatkan pemeriksaan",
-            detak_jantung_janin_sebelumnya: model?.pelayanan_ibu
-                ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1]
-                      .detak_jantung_janin
-                : "Belum pernahh mendapatkan pemeriksaan",
-            tekanan_darah_ibu_sebelumnya: model?.pelayanan_ibu
-                ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1]
-                      .tekanan_darah_ibu
-                : "Belum pernahh mendapatkan pemeriksaan",
-            posisi_janin_sebelumnya: model?.pelayanan_ibu
-                ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1]
-                      .posisi_janin
-                : "Belum pernahh mendapatkan pemeriksaan",
-            pemberian_imunisasi_sebelumnya: model?.pelayanan_ibu
-                ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1]
-                      .pemberian_imunisasi
-                : "Belum pernahh mendapatkan pemeriksaan",
-            pemberian_vaksin_sebelumnya: model?.pelayanan_ibu
-                ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1]
-                      .pemberian_vaksin
-                : "Belum pernahh mendapatkan pemeriksaan",
-            nomor_imunisasi_sebelumnya: model?.pelayanan_ibu
-                ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1]
-                      .nomor_imunisasi
-                : "Belum pernahh mendapatkan pemeriksaan",
-            nomor_vaksin_sebelumnya: model?.pelayanan_ibu
-                ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1]
-                      .nomor_vaksin
-                : "Belum pernahh mendapatkan pemeriksaan",
-            pemberian_vitamin_a_sebelumnya: model?.pelayanan_ibu
-                ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1]
-                      .pemberian_vitamin_a
-                : "Belum pernahh mendapatkan pemeriksaan",
-            umur_kehamilan_sebelumnya: model?.pelayanan_ibu
-                ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1]
-                      .umur_kehamilan
-                : "Belum pernahh mendapatkan pemeriksaan",
-            resiko_kehamilan_sebelumnya: model?.pelayanan_ibu
-                ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1]
-                      .resiko_kehamilan
-                : "Belum pernahh mendapatkan pemeriksaan",
-            tindakan_sebelumnya: model?.pelayanan_ibu
-                ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1].tindakan
-                : "Belum pernahh mendapatkan pemeriksaan",
-            nasihat_sebelumnya: model?.pelayanan_ibu
-                ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1].nasihat
-                : "Belum pernahh mendapatkan pemeriksaan",
+            tinggi_badan_sebelumnya: model
+                ? model?.pelayanan_ibu.length > 0
+                    ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1]
+                          .tinggi_badan
+                    : 0
+                : " ",
+            berat_badan_sebelumnya: model
+                ? model?.pelayanan_ibu.length > 0
+                    ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1]
+                          .berat_badan
+                    : 0
+                : "",
+            lingkar_lengan_sebelumnya: model
+                ? model?.pelayanan_ibu.length > 0
+                    ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1]
+                          .lingkar_lengan
+                    : 0
+                : "",
+            lingkar_perut_sebelumnya: model
+                ? model?.pelayanan_ibu.length > 0
+                    ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1]
+                          .lingkar_perut
+                    : 0
+                : "",
+            tinggi_fundus_sebelumnya: model
+                ? model?.pelayanan_ibu.length > 0
+                    ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1]
+                          .tinggi_fundus
+                    : 0
+                : "",
+            detak_jantung_janin_sebelumnya: model
+                ? model?.pelayanan_ibu.length > 0
+                    ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1]
+                          .detak_jantung_janin
+                    : 0
+                : "",
+            tekanan_darah_ibu_sebelumnya: model
+                ? model?.pelayanan_ibu.length > 0
+                    ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1]
+                          .tekanan_darah_ibu
+                    : 0
+                : "",
+            posisi_janin_sebelumnya: model
+                ? model?.pelayanan_ibu.length > 0
+                    ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1]
+                          .posisi_janin
+                    : 0
+                : "",
+            pemberian_imunisasi_sebelumnya: model
+                ? model?.pelayanan_ibu.length > 0
+                    ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1]
+                          .pemberian_imunisasi
+                    : 0
+                : "",
+            pemberian_vaksin_sebelumnya: model
+                ? model?.pelayanan_ibu.length > 0
+                    ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1]
+                          .pemberian_vaksin
+                    : 0
+                : "",
+            nomor_imunisasi_sebelumnya: model
+                ? model?.pelayanan_ibu.length > 0
+                    ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1]
+                          .nomor_imunisasi
+                    : 0
+                : "",
+            nomor_vaksin_sebelumnya: model
+                ? model?.pelayanan_ibu.length > 0
+                    ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1]
+                          .nomor_vaksin
+                    : 0
+                : "",
+            pemberian_vitamin_a_sebelumnya: model
+                ? model?.pelayanan_ibu.length > 0
+                    ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1]
+                          .pemberian_vitamin_a
+                    : 0
+                : "",
+            umur_kehamilan_sebelumnya: model
+                ? model?.pelayanan_ibu.length > 0
+                    ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1]
+                          .umur_kehamilan
+                    : 0
+                : "",
+            resiko_kehamilan_sebelumnya: model
+                ? model?.pelayanan_ibu.length > 0
+                    ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1]
+                          .resiko_kehamilan
+                    : 0
+                : "",
+            tindakan_sebelumnya: model
+                ? model?.pelayanan_ibu.length > 0
+                    ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1]
+                          .tindakan
+                    : 0
+                : "",
+            nasihat_sebelumnya: model
+                ? model?.pelayanan_ibu.length > 0
+                    ? model.pelayanan_ibu[model.pelayanan_ibu.length - 1]
+                          .nasihat
+                    : 0
+                : "",
         });
     }, [model]);
+    console.log(model);
     const submitHandler = (e) => {
         e.preventDefault();
         Swal.fire({
