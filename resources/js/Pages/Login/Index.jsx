@@ -45,8 +45,8 @@ export default function Index() {
                     />
                 </div>
                 <div className="top-0 left-0 w-full h-full bg-slate-950/50 absolute">
-                    <div className="relative w-full h-full flex items-center px-8">
-                        <div className="px-4 w-1/2">
+                    <div className="relative w-full h-full flex flex-col md:flex-row items-center px-8 justify-center">
+                        <div className="px-4 w-full md:w-1/2">
                             <h3 className="font-bold text-white tracking-tighter text-3xl">
                                 Selamat Datang di, Sistem Informasi Monitoring
                                 Tumbuh Kembang Anak
