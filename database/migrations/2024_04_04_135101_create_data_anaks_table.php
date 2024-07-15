@@ -14,15 +14,15 @@ return new class extends Migration
         Schema::create('data_anaks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('data_ibu_id')->references('id')->on('data_ibus')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('nama');
-            $table->string('tempat_lahir');
+            $table->string('nama',50);
+            $table->string('tempat_lahir',70);
             $table->date('tanggal_lahir');
-            $table->string('jenis_kelamin');
-            $table->string('gol_darah')->nullable();
-            $table->string('proses_kelahiran');
-            $table->string('berat_lahir');
-            $table->string('tinggi_lahir');
-            $table->string('dusun');
+            $table->string('jenis_kelamin', 25);
+            $table->string('gol_darah',3)->nullable();
+            $table->string('proses_kelahiran',35);
+            $table->float('berat_lahir',10);
+            $table->integer('tinggi_lahir');
+            $table->string('dusun',50);
             $table->string('foto')->default('image/preview_image.jpg');
             $table->timestamps();
         });

@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::create('keanggotaan_ibus', function (Blueprint $table) {
             $table->id();
             $table->foreignId('data_ibu_id')->references('id')->on('data_ibus')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('kode_anggota');
-            $table->string('tanggal_pendaftaran');
+            $table->string('kode_anggota', 16);
+            $table->date('tanggal_pendaftaran');
             $table->integer('usia_kehamilan');
-            $table->string('berat_badan');
-            $table->string('tinggi_badan');
+            $table->float('berat_badan');
+            $table->integer('tinggi_badan');
             $table->date('hpht');
             $table->string('htp');
-            $table->string('hamil_ke');
+            $table->integer('hamil_ke');
             $table->string('foto_ktp')->default('image/preview_image.jpg');
             $table->string('foto_kk')->default('image/preview_image.jpg');
             $table->string('riwayat_penyakit')->nullable();

@@ -14,17 +14,16 @@ return new class extends Migration
         Schema::create('data_ibus', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable();
-            $table->string('nama_lengkap');
-            $table->string('nik');
-            $table->string('tempat_lahir');
+            $table->string('nama_lengkap', 50);
+            $table->string('nik', 16);
+            $table->string('tempat_lahir', 50);
             $table->date('tgl_lahir');
-            $table->string('gol_darah');
-            $table->string('alamat');
-            $table->string('desa');
-            $table->string('dusun');
-            $table->string('telephone');
-            $table->foreignId('pendidikan_id')->references('id')->on('pendidikans')->onDelete('cascade');;
-            $table->foreignId('pekerjaan_id')->references('id')->on('pekerjaans')->onDelete('cascade');;
+            $table->string('gol_darah', 3);
+            $table->string('alamat', 100);
+            $table->string('dusun', 50);
+            $table->string('telephone', 12);
+            $table->string('pekerjaan', 50);
+            $table->string('pendidikan',50);
             $table->string('foto')->default('image/preview_image.jpg');
             $table->timestamps();
         });

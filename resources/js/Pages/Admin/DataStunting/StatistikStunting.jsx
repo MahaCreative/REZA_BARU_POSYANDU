@@ -76,7 +76,7 @@ export default function StatistikStunting(props) {
                             <th className="border border-gray-500">
                                 Stunting{" "}
                             </th>
-                            <th className="border border-gray-500">Dusun </th>
+                            <th className="border border-gray-500">Sembuh </th>
                         </tr>
                     </thead>
                     <tbody>

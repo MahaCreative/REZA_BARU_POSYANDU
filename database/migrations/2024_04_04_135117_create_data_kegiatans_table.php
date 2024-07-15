@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('data_kegiatans', function (Blueprint $table) {
             $table->id();
-            $table->string('kd_kegiatan');
-            $table->string('status_kegiatan');
+            $table->string('kd_kegiatan',16);
+            $table->string('status_kegiatan',50);
             $table->date('tanggal_kegiatan');
             $table->longText('catatan')->default();
             $table->timestamps();
