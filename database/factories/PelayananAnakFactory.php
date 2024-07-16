@@ -51,8 +51,7 @@ class PelayananAnakFactory extends Factory
             'pemberian_vit_a' => $oralit[rand(0, 1)],
             'pemberian_imunisasi' => $imunisasi[rand(0, count($imunisasi) - 1)]->nama_imunisasi,
             'pemberian_vaksin' => $vaksin[rand(0, count($vaksin) - 1)]->nama_imunisasi,
-            'nomor_vaksin' => rand(0, 99999999),
-            'nomor_imunisasi' => rand(0, 99999999),
+
         ];
     }
 }

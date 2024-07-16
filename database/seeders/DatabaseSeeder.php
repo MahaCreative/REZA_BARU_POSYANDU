@@ -55,9 +55,9 @@ class DatabaseSeeder extends Seeder
         JenisImunisasi::factory(4)->create();
         // DataKader::factory(10)->create();
         DataIbu::factory(50)->create()->each(function ($ibu) {
-            // $ibu->keanggotaan()->saveMany(
-            //     KeanggotaanIbu::factory(3)->make()
-            // );
+            $ibu->keanggotaan()->saveMany(
+                KeanggotaanIbu::factory(3)->make()
+            );
 
             $ibu->anak()->saveMany(
                 DataAnak::factory(3)->make()
@@ -65,12 +65,12 @@ class DatabaseSeeder extends Seeder
         });
 
 
-        DataKegiatan::factory(1)->create()->each(function ($kegiatan) {
+        DataKegiatan::factory(5)->create()->each(function ($kegiatan) {
             $kegiatan->PelayananAnak()->saveMany(
-                PelayananAnak::factory(1)->make()
+                PelayananAnak::factory(10)->make()
             );
             $kegiatan->PelayananIbu()->saveMany(
-                PelayananIbu::factory(1)->make()
+                PelayananIbu::factory(10)->make()
             );
         });
     }

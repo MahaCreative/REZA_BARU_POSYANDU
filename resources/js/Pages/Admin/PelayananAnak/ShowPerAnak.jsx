@@ -17,6 +17,12 @@ export default function ShowPerAnak(props) {
             //   omit: paramsAnak.display_nama_dusun ? false : true,
         },
         {
+            name: "Tanggal Kegiatan",
+            selector: (row) => row.kegiatan.tanggal_kegiatan,
+            wrap: true,
+            //   omit: paramsAnak.display_nama_dusun ? false : true,
+        },
+        {
             name: "Berat Badan",
             selector: (row) => (
                 <div>

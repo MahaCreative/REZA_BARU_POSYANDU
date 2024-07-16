@@ -110,7 +110,7 @@ class PelayananAnakController extends Controller
     public function show_per_anak(Request $request)
     {
         $anak = DataAnak::with('ibu')->findOrFail($request->id);
-        $allPelayanan = PelayananAnak::where('data_anak_id', $request->id)->latest()->get();
+        $allPelayanan = PelayananAnak::where('data_anak_id', $request->id)->with('kegiatan')->latest()->get();
         $stat_pelayanan = PelayananAnak::where('data_anak_id', $request->id)->get()->take(12);
         return inertia('Admin/PelayananAnak/ShowPerAnak', compact('anak', 'allPelayanan', 'stat_pelayanan'));
     }
