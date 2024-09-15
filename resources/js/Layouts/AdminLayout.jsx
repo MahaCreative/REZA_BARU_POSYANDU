@@ -30,6 +30,10 @@ export default function AdminLayout({ children, title, props }) {
                 >
                     <Widgets color="inherit" fontSize="inherit" />
                 </div>
+                <div className=" flex gap-3 items-center">
+                    <img src="aaa" alt="" className="w-[30px] h-[30px] my-3" />
+                    <p className="text-white">Fikom Unika</p>
+                </div>
             </div>
             {/* Drawer */}
             <Drawer open={drawer} onClose={() => setDrawer(false)}>
@@ -202,6 +206,9 @@ export default function AdminLayout({ children, title, props }) {
                     {title}
                 </h1>
                 {children}
+            </div>
+            <div className="bg-slate-950 text-white flex justify-end px-16 py-6">
+                <p>Reza Fikom Unika (2024)</p>
             </div>
         </div>
     );
