@@ -31,8 +31,12 @@ export default function AdminLayout({ children, title, props }) {
                     <Widgets color="inherit" fontSize="inherit" />
                 </div>
                 <div className=" flex gap-3 items-center">
-                    <img src="aaa" alt="" className="w-[30px] h-[30px] my-3" />
-                    <p className="text-white">Fikom Unika</p>
+                    <img
+                        src="/storage/fikom.png"
+                        alt=""
+                        className="w-[30px] h-[30px] my-3"
+                    />
+                    <p className="text-white">FIKOM UNIKA</p>
                 </div>
             </div>
             {/* Drawer */}
